@@ -1,0 +1,24 @@
+{
+  "name": "m13l1-assignment-js",
+  "version": "1.0.0",
+  "description": "Coding Temple - Module 13, Lesson 1: REST API Design Patterns",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Taylor Miseray",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.1",
+    "express-rate-limit": "^7.4.1",
+    "helmet": "^8.0.0",
+    "joi": "^17.13.3",
+    "morgan": "^1.10.0",
+    "mysql2": "^3.11.5",
+    "node-cache": "^5.1.2",
+    "sequelize": "^6.37.5"
+  }
+}
