@@ -29,6 +29,19 @@ const Production = sequelize.define('Production', {
             isDate: true,
         },
     },
+    createdAt: {
+        type: DataTypes.DATEONLY,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
+    },
+    updatedAt: {
+        type: DataTypes.DATEONLY,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
+        onUpdate: DataTypes.NOW,
+    },
+}, {
+    tableName: 'Production',
 });
 
 export default Production;

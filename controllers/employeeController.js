@@ -7,7 +7,7 @@ const saveEmployee = async (req, res) => {
     if (error) return res.status(400).json({ error: error.details[0].message });
 
     try {
-        const employee = await employeeService.saveemployee(req.body);
+        const employee = await employeeService.saveEmployee(req.body);
         res.status(201).json(employee);
     } catch (err) {
         res.status(500).json({ error: err.message });

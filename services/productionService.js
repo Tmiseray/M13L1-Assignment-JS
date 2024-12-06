@@ -16,6 +16,7 @@ const findProductions = async () => {
         const productions = await Production.findAll();
         return productions;
     } catch (error) {
+        console.log(error);
         throw new Error("Error retrieving productions: " + error.message);
     }
 };

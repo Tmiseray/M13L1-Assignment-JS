@@ -21,6 +21,17 @@ const Employee = sequelize.define('Employee', {
             len: [2, 100],
         },
     },
+    createdAt: {
+        type: DataTypes.DATEONLY,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
+    },
+    updatedAt: {
+        type: DataTypes.DATEONLY,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
+        onUpdate: DataTypes.NOW,
+    },
 });
 
 export default Employee;

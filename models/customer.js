@@ -25,6 +25,17 @@ const Customer = sequelize.define('Customer', {
         type: DataTypes.STRING,
         allowNull: false,
     },
+    createdAt: {
+        type: DataTypes.DATEONLY,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
+    },
+    updatedAt: {
+        type: DataTypes.DATEONLY,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
+        onUpdate: DataTypes.NOW,
+    },
 });
 
 export default Customer;

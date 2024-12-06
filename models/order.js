@@ -39,6 +39,17 @@ const Order = sequelize.define('Order', {
             min: 0,
         },
     },
+    createdAt: {
+        type: DataTypes.DATEONLY,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
+    },
+    updatedAt: {
+        type: DataTypes.DATEONLY,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
+        onUpdate: DataTypes.NOW,
+    },
 });
 
 Order.beforeUpdate(async (order) => {

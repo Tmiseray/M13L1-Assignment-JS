@@ -21,6 +21,17 @@ const Product = sequelize.define('Product', {
             min: 0.01,
         },
     },
+    createdAt: {
+        type: DataTypes.DATEONLY,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
+    },
+    updatedAt: {
+        type: DataTypes.DATEONLY,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
+        onUpdate: DataTypes.NOW,
+    },
 });
 
 export default Product;
