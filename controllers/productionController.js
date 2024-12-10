@@ -1,5 +1,6 @@
 import productionService from "../services/productionService.js";
-import { productionSchema, employeeProductionSchema } from "../models/schemas/productionSchema.js";
+import productionSchema from "../models/schemas/productionSchema.js";
+import employeeProductionSchema from "../models/schemas/employeeProductionSchema.js";
 import { validateSchema } from "../utils/validationUtils.js";
 
 
