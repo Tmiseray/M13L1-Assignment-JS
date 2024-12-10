@@ -28,7 +28,7 @@ const productionSchema = Joi.object({
 const employeeProductionSchema = Joi.object({
     employeeName: Joi.string().required(),
     products: Joi.array().items(productSchema).optional(),
-    totalItemsProduced: Joi.number().integer().required()
+    totalItemsProduced: Joi.number().integer().required(),
 });
 
 export default { productionSchema, employeeProductionSchema };
