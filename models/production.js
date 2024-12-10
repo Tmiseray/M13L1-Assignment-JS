@@ -29,16 +29,38 @@ const Production = sequelize.define('Production', {
             isDate: true,
         },
     },
+    createdBy: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'Employees',
+            key: 'id',
+        },
+    },
     createdAt: {
         type: DataTypes.DATEONLY,
         allowNull: false,
         defaultValue: DataTypes.NOW,
+    },
+    updatedBy: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+            model: 'Employees',
+            key: 'id',
+        },
     },
     updatedAt: {
         type: DataTypes.DATEONLY,
         allowNull: false,
         defaultValue: DataTypes.NOW,
         onUpdate: DataTypes.NOW,
+    },
+}, {
+    hooks: {
+        beforeCreate: (production) => {
+            production.updatedBy = production.createdBy;
+        },
     },
 }, {
     tableName: 'Production',

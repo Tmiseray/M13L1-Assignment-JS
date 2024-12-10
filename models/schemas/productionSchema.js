@@ -1,4 +1,5 @@
 import Joi from "joi";
+import productSchema from "./productSchema.js";
 
 const productionSchema = Joi.object({
     productId: Joi.number().integer().positive().required()
@@ -23,4 +24,11 @@ const productionSchema = Joi.object({
         }),
 });
 
-export default productionSchema;
+
+const employeeProductionSchema = Joi.object({
+    employeeName: Joi.string().required(),
+    products: Joi.array().items(productSchema).optional(),
+    totalItemsProduced: Joi.number().integer().required()
+});
+
+export default { productionSchema, employeeProductionSchema };

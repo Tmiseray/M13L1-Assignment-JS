@@ -9,4 +9,7 @@ router.post('/', productController.saveProduct);
 // Get all Products
 router.get('/', productController.findProducts);
 
+// Pagination
+router.get('/paginate', productController.findProductsPaginate);
+
 export default router;

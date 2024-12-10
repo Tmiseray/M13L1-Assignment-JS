@@ -23,4 +23,27 @@ const findOrders = async (req, res) => {
     }
 };
 
-export default { saveOrder, findOrders };
+const findOrdersPaginate = async (req, res) => {
+    try {
+        const page = Math.max(1, parseInt(req.query.page, 10) || 1);
+        const perPage = Math.max(1, parseInt(req.query.perPage, 10) || 10);
+
+        const offset = (page - 1) * perPage;
+
+        const { rows: orders, count: totalItems } = await orderService.findOrdersPaginate(perPage, offset);
+
+        const totalPages = Math.ceil(totalItems / perPage);
+
+        res.status(200).json({
+            orders,
+            totalItems,
+            totalPages,
+            currentPage: page,
+            perPage,
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+export default { saveOrder, findOrders, findOrdersPaginate };

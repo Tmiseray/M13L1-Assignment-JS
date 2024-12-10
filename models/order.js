@@ -50,15 +50,26 @@ const Order = sequelize.define('Order', {
         defaultValue: DataTypes.NOW,
         onUpdate: DataTypes.NOW,
     },
+}, {
+    hooks: {
+        beforeUpdate: async (order) => {
+            if (order.productId) {
+                const product = await Product.findByPk(order.productId);
+                if (product) {
+                    order.totalPrice = order.quantity * product.price;
+                }
+            }
+        },
+    },
 });
 
-Order.beforeUpdate(async (order) => {
-    if (order.productId) {
-        const product = await Product.findByPk(order.productId);
-        if (product) {
-            order.totalPrice = order.quantity * product.price;
-        }
-    }
-});
+// Order.beforeUpdate(async (order) => {
+//     if (order.productId) {
+//         const product = await Product.findByPk(order.productId);
+//         if (product) {
+//             order.totalPrice = order.quantity * product.price;
+//         }
+//     }
+// });
 
 export default Order;

@@ -1,6 +1,7 @@
 import productionService from "../services/productionService.js";
-import productionSchema from "../models/schemas/productionSchema.js";
+import { productionSchema, employeeProductionSchema } from "../models/schemas/productionSchema.js";
 import { validateSchema } from "../utils/validationUtils.js";
+
 
 const saveProduction = async (req, res) => {
     const { error } = validateSchema(req.body, productionSchema);
@@ -23,4 +24,17 @@ const findProductions = async (req, res) => {
     }
 };
 
-export default { saveProduction, findProductions };
+const employeesTotalProductions = async (req, res) => {
+    try {
+        const analysisData = await productionService.employeesTotalProductions();
+        const { error, value } = validateSchema(analysisData, employeeProductionSchema);
+        if (error) {
+            return res.status(400).json({ error: error.details[0].message });
+        }
+        return res.status(200).json(value);
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+};
+
+export default { saveProduction, findProductions, employeesTotalProductions };

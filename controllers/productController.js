@@ -23,4 +23,27 @@ const findProducts = async (req, res) => {
     }
 };
 
-export default { saveProduct, findProducts };
+const findProductsPaginate = async (req, res) => {
+    try {
+        const page = Math.max(1, parseInt(req.query.page, 10) || 1);
+        const perPage = Math.max(1, parseInt(req.query.perPage, 10) || 10);
+
+        const offset = (page - 1) * perPage;
+
+        const { rows: products, count: totalItems } = await productService.findProductsPaginate(perPage, offset);
+
+        const totalPages = Math.ceil(totalItems / perPage);
+
+        res.status(200).json({
+            products,
+            totalItems,
+            totalPages,
+            currentPage: page,
+            perPage,
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+export default { saveProduct, findProducts, findProductsPaginate };

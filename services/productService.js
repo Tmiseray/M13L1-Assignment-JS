@@ -20,4 +20,14 @@ const findProducts = async () => {
     }
 };
 
-export default { saveProduct, findProducts };
+// Pagination
+const findProductsPaginate = async (perPage=10, offset=0) => {
+    const products = await Product.findAndCountAll({
+        limit: perPage,
+        offset: offset,
+        order: [['name', 'DESC']],
+    });
+    return products;
+}
+
+export default { saveProduct, findProducts, findProductsPaginate };

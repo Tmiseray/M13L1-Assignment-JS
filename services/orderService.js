@@ -20,4 +20,14 @@ const findOrders = async () => {
     }
 };
 
-export default { saveOrder, findOrders }
+// Pagination
+const findOrdersPaginate = async (perPage=10, offset=0) => {
+    const orders = await Order.findAndCountAll({
+        limit: perPage,
+        offset: offset,
+        order: [['createdAt', 'DESC']],
+    });
+    return orders;
+}
+
+export default { saveOrder, findOrders, findOrdersPaginate }
