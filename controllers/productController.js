@@ -1,5 +1,6 @@
 import productService from "../services/productService.js";
 import productSchema from "../models/schemas/productSchema.js";
+import topProductSchema from "../models/schemas/topProductSchema.js";
 import { validateSchema } from "../utils/validationUtils.js";
 
 const saveProduct = async (req, res) => {
@@ -44,6 +45,22 @@ const findProductsPaginate = async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-}
+};
 
-export default { saveProduct, findProducts, findProductsPaginate };
+const topSellingProducts = async (req, res) => {
+    try {
+        const analysisData = await productService.topSellingProducts();
+
+        const validationResults = analysisData.map(item => {
+            const { error, value } = topProductSchema.validate(item);
+            if (error) throw new Error(error.details[0].message);
+            return value;
+        });
+
+        res.status(200).json(validationResults);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+export default { saveProduct, findProducts, findProductsPaginate, topSellingProducts };

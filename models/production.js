@@ -62,7 +62,6 @@ const Production = sequelize.define('Production', {
             production.updatedBy = production.createdBy;
         },
     },
-}, {
     tableName: 'Production',
 });
 

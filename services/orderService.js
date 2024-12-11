@@ -1,4 +1,4 @@
-import Order from "../models/order.js";
+import { Order } from "../models/index.js";
 
 // Save a new Order
 const saveOrder = async (orderData) => {

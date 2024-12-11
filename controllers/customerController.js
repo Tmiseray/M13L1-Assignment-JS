@@ -1,5 +1,6 @@
 import customerService from "../services/customerService.js";
 import customerSchema from "../models/schemas/customerSchema.js";
+import loyalCustomersSchema from "../models/schemas/loyalCustomersSchema.js";
 import { validateSchema } from "../utils/validationUtils.js";
 
 const saveCustomer = async (req, res) => {
@@ -23,4 +24,20 @@ const findCustomers = async (req, res) => {
     }
 };
 
-export default { saveCustomer, findCustomers };
+const customersLoyaltyValue = async (req, res) => {
+    try {
+        const loyaltyAnalysis = await customerService.customersLoyaltyValue();
+
+        const validationResults = loyaltyAnalysis.map(item => {
+            const { error, value } = loyalCustomersSchema.validate(item);
+            if (error) throw new Error(error.details[0].message);
+            return value;
+        });
+
+        res.status(200).json(validationResults);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+export default { saveCustomer, findCustomers, customersLoyaltyValue };

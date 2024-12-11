@@ -9,7 +9,4 @@ router.post('/', productionController.saveProduction);
 // Get all Productions
 router.get('/', productionController.findProductions);
 
-// Get Employees Total Productions
-router.get('/employees-total-productions', productionController.employeesTotalProductions);
-
 export default router;

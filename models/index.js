@@ -5,26 +5,26 @@ import Order from "./order.js";
 import Production from "./production.js";
 
 // Associations
-Customer.hasMany(Order, { foreignKey: 'customerId', as: 'orders' });
-Order.belongsTo(Customer, { foreignKey: 'customerId', as: 'customer' });
+Customer.hasMany(Order, { foreignKey: 'customerId', sourceKey: 'id', as: 'customerOrder' });
+Order.belongsTo(Customer, { foreignKey: 'customerId', as: 'orderByCustomer' });
 
-Product.hasMany(Order, { foreignKey: 'productId', as: 'orders' });
-Order.belongsTo(Product, { foreignKey: 'productId', as: 'product' });
+Product.hasMany(Order, { foreignKey: 'productId', sourceKey: 'id', as: 'orderedProduct' });
+Order.belongsTo(Product, { foreignKey: 'productId', as: 'productForOrder' });
 
-Product.hasMany(Production, { foreignKey: 'productId', as: 'production' });
-Production.belongsTo(Product, { foreignKey: 'productId', as: 'product' });
+Product.hasMany(Production, { foreignKey: 'productId', sourceKey: 'id', as: 'producedProduct' });
+Production.belongsTo(Product, { foreignKey: 'productId', as: 'productFromProduction' });
 
-Employee.hasMany(Production, { foreignKey: 'createdBy', as: 'productionCreated' });
-Production.belongsTo(Employee, { foreignKey: 'createdBy', as: 'creator' });
+Employee.hasMany(Production, { foreignKey: 'createdBy', sourceKey: 'id', as: 'createdProduction' });
+Production.belongsTo(Employee, { foreignKey: 'createdBy', as: 'productionCreator' });
 
-Employee.hasMany(Product, { foreignKey: 'createdBy', as: 'productCreated' });
-Product.belongsTo(Employee, { foreignKey: 'createdBy', as: 'creator' });
+Employee.hasMany(Product, { foreignKey: 'createdBy', sourceKey: 'id', as: 'createdProduct' });
+Product.belongsTo(Employee, { foreignKey: 'createdBy', as: 'productCreator' });
 
-Employee.hasMany(Production, { foreignKey: 'updatedBy', as: 'productionUpdated' });
-Production.belongsTo(Employee, { foreignKey: 'updatedBy', as: 'updater' });
+Employee.hasMany(Production, { foreignKey: 'updatedBy', sourceKey: 'id', as: 'updatedProduction' });
+Production.belongsTo(Employee, { foreignKey: 'updatedBy', as: 'productionUpdater' });
 
-Employee.hasMany(Product, { foreignKey: 'updatedBy', as: 'productUpdated' });
-Product.belongsTo(Employee, { foreignKey: 'updatedBy', as: 'updater' });
+Employee.hasMany(Product, { foreignKey: 'updatedBy', sourceKey: 'id', as: 'updatedProduct' });
+Product.belongsTo(Employee, { foreignKey: 'updatedBy', as: 'productUpdater' });
 
 
 export { Customer, Employee, Order, Product, Production };

@@ -1,6 +1,8 @@
 import employeeService from "../services/employeeService.js";
 import employeeSchema from "../models/schemas/employeeSchema.js";
+import employeeProductionSchema from "../models/schemas/employeeProductionSchema.js";
 import { validateSchema } from "../utils/validationUtils.js";
+
 
 const saveEmployee = async (req, res) => {
     const { error } = validateSchema(req.body, employeeSchema);
@@ -23,4 +25,20 @@ const findEmployees = async (req, res) => {
     }
 };
 
-export default { saveEmployee, findEmployees };
+const employeesTotalProductions = async (req, res) => {
+    try {
+        const analysisData = await employeeService.employeesTotalProductions();
+
+        const validationResults = analysisData.map(item => {
+            const { error, value } = employeeProductionSchema.validate(item);
+            if (error) throw new Error(error.details[0].message);
+            return value;
+        });
+
+        res.status(200).json(validationResults);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+export default { saveEmployee, findEmployees, employeesTotalProductions };

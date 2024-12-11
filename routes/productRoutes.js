@@ -12,4 +12,7 @@ router.get('/', productController.findProducts);
 // Pagination
 router.get('/paginate', productController.findProductsPaginate);
 
+// Top Selling Products
+router.get('/top-selling-products', productController.topSellingProducts);
+
 export default router;
