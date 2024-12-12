@@ -3,13 +3,13 @@ import orderController from "../controllers/orderController.js";
 
 const router = e.Router();
 
-// Save a new Order
+// Save a New Order
 router.post('/', orderController.saveOrder);
 
-// Get all Orders
+// Get All Orders
 router.get('/', orderController.findOrders);
 
-// Pagination
+// Paginate Orders
 router.get('/paginate', orderController.findOrdersPaginate);
 
 export default router;

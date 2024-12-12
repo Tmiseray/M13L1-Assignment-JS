@@ -4,6 +4,7 @@ import employeeProductionSchema from "../models/schemas/employeeProductionSchema
 import { validateSchema } from "../utils/validationUtils.js";
 
 
+// Save New Employee Data
 const saveEmployee = async (req, res) => {
     const { error } = validateSchema(req.body, employeeSchema);
     if (error) return res.status(400).json({ error: error.details[0].message });
@@ -16,6 +17,8 @@ const saveEmployee = async (req, res) => {
     }
 };
 
+
+// Get All Employees
 const findEmployees = async (req, res) => {
     try {
         const employees = await employeeService.findEmployees();
@@ -25,6 +28,8 @@ const findEmployees = async (req, res) => {
     }
 };
 
+
+// Employees Total Productions
 const employeesTotalProductions = async (req, res) => {
     try {
         const analysisData = await employeeService.employeesTotalProductions();

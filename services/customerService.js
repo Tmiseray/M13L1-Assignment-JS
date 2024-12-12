@@ -1,7 +1,8 @@
 import { Customer, Order } from "../models/index.js";
-import { col, fn } from "sequelize";
+import { col, fn, Op } from "sequelize";
 
-// Save a new customer
+
+// Save New Customer Data
 const saveCustomer = async (customerData) => {
     try {
         const newCustomer = await Customer.create(customerData);
@@ -11,7 +12,8 @@ const saveCustomer = async (customerData) => {
     }
 };
 
-// Find all customers
+
+// Get All Customers
 const findCustomers = async () => {
     try {
         const customers = await Customer.findAll();
@@ -20,6 +22,7 @@ const findCustomers = async () => {
         throw new Error("Error retrieving customers: " + error.message);
     }
 };
+
 
 // Customers Loyalty Value
 const customersLoyaltyValue = async () => {
@@ -34,16 +37,22 @@ const customersLoyaltyValue = async () => {
                 attributes: ['name'],
             }],
             group: ['customerOrder.name'],
+            having: {
+                lifetimeLoyaltyValue : {
+                    [Op.gte]: 200,
+                },
+            },
             raw: true,
         });
 
         return loyaltyValues.map(loyalty => ({
             customerName: loyalty['customerOrder.name'],
-            lifetimeLoyaltyValue: loyalty.lifetimeLoyaltyValue,
+            lifetimeLoyaltyValue: parseFloat(loyalty.lifetimeLoyaltyValue),
         }));
     } catch (err) {
         throw new Error('Error fetching loyalty values: ' + err.message);
     }
 };
+
 
 export default { saveCustomer, findCustomers, customersLoyaltyValue };

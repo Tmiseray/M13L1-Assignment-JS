@@ -3,10 +3,10 @@ import customerController from "../controllers/customerController.js";
 
 const router = e.Router();
 
-// Save a new customer
+// Save a New Customer
 router.post('/', customerController.saveCustomer);
 
-// Get all customers
+// Get All Customers
 router.get('/', customerController.findCustomers);
 
 // Customers Loyalty Value

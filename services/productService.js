@@ -1,7 +1,8 @@
 import { col, fn } from "sequelize";
 import { Order, Product } from "../models/index.js"
 
-// Save a new product
+
+// Save New Product Data
 const saveProduct = async (productData) => {
     try {
         const newProduct = await Product.create(productData);
@@ -11,7 +12,8 @@ const saveProduct = async (productData) => {
     }
 };
 
-// Find all products
+
+// Get All Products
 const findProducts = async () => {
     try {
         const products = await Product.findAll();
@@ -21,7 +23,8 @@ const findProducts = async () => {
     }
 };
 
-// Pagination
+
+// Paginate Products
 const findProductsPaginate = async (perPage=10, offset=0) => {
     const products = await Product.findAndCountAll({
         limit: perPage,
@@ -31,7 +34,8 @@ const findProductsPaginate = async (perPage=10, offset=0) => {
     return products;
 };
 
-// Top Selling Product
+
+// Top Selling Products
 const topSellingProducts = async () => {
     try {
         const products = await Order.findAll({
@@ -55,5 +59,6 @@ const topSellingProducts = async () => {
         throw new Error('Error fetching top selling products: ' + err.message);
     }
 };
+
 
 export default { saveProduct, findProducts, findProductsPaginate, topSellingProducts };

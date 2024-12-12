@@ -3,6 +3,8 @@ import customerSchema from "../models/schemas/customerSchema.js";
 import loyalCustomersSchema from "../models/schemas/loyalCustomersSchema.js";
 import { validateSchema } from "../utils/validationUtils.js";
 
+
+// Save New Customer Data
 const saveCustomer = async (req, res) => {
     const { error } = validateSchema(req.body, customerSchema);
     if (error) return res.status(400).json({ error: error.details[0].message });
@@ -15,6 +17,8 @@ const saveCustomer = async (req, res) => {
     }
 };
 
+
+// Get All Customers
 const findCustomers = async (req, res) => {
     try {
         const customers = await customerService.findCustomers();
@@ -24,6 +28,8 @@ const findCustomers = async (req, res) => {
     }
 };
 
+
+// Customers Loyalty Value
 const customersLoyaltyValue = async (req, res) => {
     try {
         const loyaltyAnalysis = await customerService.customersLoyaltyValue();

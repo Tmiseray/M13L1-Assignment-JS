@@ -1,5 +1,6 @@
 import Joi from "joi";
 
+
 const customerSchema = Joi.object({
     name: Joi.string().min(2).max(100).required()
         .messages({
@@ -18,5 +19,6 @@ const customerSchema = Joi.object({
             "string.pattern.base": "Customer phone number must be 10-20 digits and may include spaces, dashes, or parentheses.",
         }),
 });
+
 
 export default customerSchema;

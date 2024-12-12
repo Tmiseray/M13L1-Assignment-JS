@@ -1,6 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../database.js";
 
+
 const Customer = sequelize.define('Customer', {
     id: {
         type: DataTypes.INTEGER,
@@ -37,5 +38,6 @@ const Customer = sequelize.define('Customer', {
         onUpdate: DataTypes.NOW,
     },
 });
+
 
 export default Customer;

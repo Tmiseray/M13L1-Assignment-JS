@@ -3,10 +3,13 @@ import productionController from "../controllers/productionController.js";
 
 const router = e.Router();
 
-// Save a new Production
+// Save a New Production
 router.post('/', productionController.saveProduction);
 
-// Get all Productions
+// Get All Productions
 router.get('/', productionController.findProductions);
+
+// Production Efficiency Analysis
+router.get('/efficiency-analysis/:date', productionController.productionEfficiency);
 
 export default router;

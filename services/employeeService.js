@@ -1,10 +1,8 @@
-import { col, Op, fn } from "sequelize";
-// import Employee from "../models/employee.js";
-// import Production from "../models/production.js";
+import { col, fn } from "sequelize";
 import { Employee, Production } from "../models/index.js"
 
 
-// Save a new Employee
+// Save New Employee Data
 const saveEmployee = async (employeeData) => {
     try {
         const newEmployee = await Employee.create(employeeData);
@@ -14,7 +12,8 @@ const saveEmployee = async (employeeData) => {
     }
 };
 
-// Find all Employees
+
+// Get All Employees
 const findEmployees = async () => {
     try {
         const employees = await Employee.findAll();
@@ -25,6 +24,7 @@ const findEmployees = async () => {
 };
 
 
+// Employees Total Productions
 const employeesTotalProductions = async () => {
     try {
         const results = await Production.findAll({
@@ -48,5 +48,6 @@ const employeesTotalProductions = async () => {
         throw new Error('Error fetching employee production data:' + err.message);
     }
 };
+
 
 export default { saveEmployee, findEmployees, employeesTotalProductions };

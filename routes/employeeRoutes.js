@@ -3,10 +3,10 @@ import employeeController from "../controllers/employeeController.js";
 
 const router = e.Router();
 
-// Save a new Employee
+// Save a New Employee
 router.post('/', employeeController.saveEmployee);
 
-// Get all Employees
+// Get All Employees
 router.get('/', employeeController.findEmployees);
 
 // Employees Total Productions

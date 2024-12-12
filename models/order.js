@@ -2,6 +2,7 @@ import { DataTypes } from "sequelize";
 import sequelize from "../database.js";
 import Product from "./product.js"
 
+
 const Order = sequelize.define('Order', {
     id: {
         type: DataTypes.INTEGER,
@@ -63,13 +64,5 @@ const Order = sequelize.define('Order', {
     },
 });
 
-// Order.beforeUpdate(async (order) => {
-//     if (order.productId) {
-//         const product = await Product.findByPk(order.productId);
-//         if (product) {
-//             order.totalPrice = order.quantity * product.price;
-//         }
-//     }
-// });
 
 export default Order;

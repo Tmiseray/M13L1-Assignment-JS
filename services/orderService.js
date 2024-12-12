@@ -1,6 +1,7 @@
 import { Order } from "../models/index.js";
 
-// Save a new Order
+
+// Save New Order Data
 const saveOrder = async (orderData) => {
     try {
         const newOrder = await Order.create(orderData);
@@ -10,7 +11,7 @@ const saveOrder = async (orderData) => {
     }
 };
 
-// Find all Orders
+// Get All Orders
 const findOrders = async () => {
     try {
         const orders = await Order.findAll();
@@ -20,7 +21,7 @@ const findOrders = async () => {
     }
 };
 
-// Pagination
+// Paginate Orders
 const findOrdersPaginate = async (perPage=10, offset=0) => {
     const orders = await Order.findAndCountAll({
         limit: perPage,
@@ -29,5 +30,6 @@ const findOrdersPaginate = async (perPage=10, offset=0) => {
     });
     return orders;
 }
+
 
 export default { saveOrder, findOrders, findOrdersPaginate }

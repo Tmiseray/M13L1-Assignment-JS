@@ -3,6 +3,8 @@ import productSchema from "../models/schemas/productSchema.js";
 import topProductSchema from "../models/schemas/topProductSchema.js";
 import { validateSchema } from "../utils/validationUtils.js";
 
+
+// Save New Product Data
 const saveProduct = async (req, res) => {
     const { error } = validateSchema(req.body, productSchema);
     if (error) return res.status(400).json({ error: error.details[0].message });
@@ -15,6 +17,8 @@ const saveProduct = async (req, res) => {
     }
 };
 
+
+// Get All Products
 const findProducts = async (req, res) => {
     try {
         const products = await productService.findProducts();
@@ -24,6 +28,8 @@ const findProducts = async (req, res) => {
     }
 };
 
+
+// Paginate Products
 const findProductsPaginate = async (req, res) => {
     try {
         const page = Math.max(1, parseInt(req.query.page, 10) || 1);
@@ -47,6 +53,8 @@ const findProductsPaginate = async (req, res) => {
     }
 };
 
+
+// Top Selling Products
 const topSellingProducts = async (req, res) => {
     try {
         const analysisData = await productService.topSellingProducts();
@@ -57,7 +65,7 @@ const topSellingProducts = async (req, res) => {
             return value;
         });
 
-        res.status(200).json(validationResults);
+        res.status(200).json(validationResults.sort((a, b) => b.totalItemsSold - a.totalItemsSold));
     } catch (err) {
         res.status(500).json({ error: err.message });
     }

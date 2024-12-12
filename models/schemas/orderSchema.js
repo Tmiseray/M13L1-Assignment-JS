@@ -19,11 +19,12 @@ const orderSchema = Joi.object({
             "number.base": "Quantity must be a number.",
             "number.min": "Quantity must be at least 1.",
         }),
-    totalPrice: Joi.number().min(0).optional()
+    totalPrice: Joi.number().precision(2).min(0).optional()
         .messages({
             "number.base": "Total price must be a number.",
             "number.min": "Total price cannot be negative.",
         }),
 });
+
 
 export default orderSchema;

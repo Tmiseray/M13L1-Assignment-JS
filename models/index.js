@@ -5,11 +5,11 @@ import Order from "./order.js";
 import Production from "./production.js";
 
 // Associations
-Customer.hasMany(Order, { foreignKey: 'customerId', sourceKey: 'id', as: 'customerOrder' });
-Order.belongsTo(Customer, { foreignKey: 'customerId', as: 'orderByCustomer' });
+Customer.hasMany(Order, { foreignKey: 'customerId', sourceKey: 'id', as: 'orderByCustomer' });
+Order.belongsTo(Customer, { foreignKey: 'customerId', as: 'customerOrder' });
 
-Product.hasMany(Order, { foreignKey: 'productId', sourceKey: 'id', as: 'orderedProduct' });
-Order.belongsTo(Product, { foreignKey: 'productId', as: 'productForOrder' });
+Product.hasMany(Order, { foreignKey: 'productId', sourceKey: 'id', as: 'productForOrder' });
+Order.belongsTo(Product, { foreignKey: 'productId', as: 'orderedProduct' });
 
 Product.hasMany(Production, { foreignKey: 'productId', sourceKey: 'id', as: 'producedProduct' });
 Production.belongsTo(Product, { foreignKey: 'productId', as: 'productFromProduction' });

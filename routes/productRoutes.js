@@ -3,13 +3,13 @@ import productController from "../controllers/productController.js";
 
 const router = e.Router();
 
-// Save a new Product
+// Save a New Product
 router.post('/', productController.saveProduct);
 
-// Get all Products
+// Get All Products
 router.get('/', productController.findProducts);
 
-// Pagination
+// Paginate Products
 router.get('/paginate', productController.findProductsPaginate);
 
 // Top Selling Products
