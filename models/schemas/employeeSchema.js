@@ -1,5 +1,4 @@
 import Joi from "joi";
-import productSchema from "./productSchema.js";
 
 const employeeSchema = Joi.object({
     name: Joi.string().min(2).max(100).required()

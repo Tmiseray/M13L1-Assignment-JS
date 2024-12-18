@@ -5,4 +5,26 @@ const cache = new NodeCache({
     checkperiod: 120
 });
 
+// Middleware Function
+cache.cacheMiddleware = (duration) => {
+    return (req, res, next) => {
+        const key = req.originalUrl || req.url;
+        const cachedResponse = cache.get(key);
+
+        if (cachedResponse) {
+            res.send(cachedResponse);
+            return;
+        }
+
+        const originalSend = res.send;
+        res.send = function(body) {
+            cache.set(key, body, duration);
+            originalSend.call(this, body);
+        };
+
+        next();
+    };
+};
+
+
 export default cache;
