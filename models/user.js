@@ -1,6 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../database.js";
 import { Employee, Customer } from "./index.js";
+import bcrypt from 'bcrypt';
 
 const User = sequelize.define('User', {
     id: {
@@ -22,6 +23,11 @@ const User = sequelize.define('User', {
         validate: {
             notEmpty: true,
         },
+        set(value) {
+            const salt = bcrypt.genSaltSync(10);
+            const hash = bcrypt.hashSync(value, salt);
+            this.setDataValue('password', hash);
+        }
     },
     role: {
         type: DataTypes.STRING(20),

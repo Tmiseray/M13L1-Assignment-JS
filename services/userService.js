@@ -1,6 +1,7 @@
 import { User } from '../models/index.js';
 import { generateToken } from '../utils/authUtils.js';
 import CircuitBreaker from 'opossum';
+import bcrypt from 'bcrypt';
 
 const breaker = new CircuitBreaker(async (userData) => {
     if (userData.username === 'Failure') {
@@ -18,10 +19,12 @@ breaker.fallback(() => null);
 const login = async (username, password) => {
     try {
         const user = await User.findOne({
-            where: { username, password }
+            where: { username }
         });
 
-        if (!user) return null;
+        if (!user || !bcrypt.compareSync(password, user.password)) {
+            return null;
+        }
 
         const authToken = generateToken(user.id, user.role);
         return {
