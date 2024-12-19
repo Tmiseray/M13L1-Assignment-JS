@@ -10,6 +10,7 @@ import customerRoutes from './routes/customerRoutes.js';
 import productRoutes from './routes/productRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
 import productionRoutes from './routes/productionRoutes.js';
+import userRoutes from './routes/userRoutes.js';
 
 const app = e();
 
@@ -28,6 +29,7 @@ app.use('/api/customers', customerRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/productions', productionRoutes);
+app.use('/api/users', userRoutes);
 
 // Catch-all for 404
 app.use((req, res, next) => {
