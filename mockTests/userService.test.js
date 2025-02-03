@@ -12,7 +12,7 @@ jest.mock('../config.js', () => ({
         CACHE_TYPE: 'simple',
         DEBUG: false,
         SECRETKEY: 'mock-secret-key'
-    },
+    }
 }));
 
 jest.mock('../database.js');
@@ -33,20 +33,24 @@ describe('userService.login', () => {
     const OLD_ENV = process.env;
 
     beforeEach(() => {
+        console.log('running beforeEach');
         jest.resetModules();
         process.env = { ...OLD_ENV };
         fakePassword = faker.internet.password();  // Generate random password 
     });
     
     afterEach(() => {
+        console.log('running afterEach');
         jest.clearAllMocks(); // Clear mocks after each test
     });
 
     afterAll(() => {
+        console.log('running afterAll');
         process.env = OLD_ENV;
     });
 
     test('should receive process.env variables', () => {
+        console.log('running test');
         process.env.NODE_ENV = 'test';
         process.env.MYPASSWORD = 'mock-password';
         process.env.MYUSERNAME = 'mock-user';
@@ -56,6 +60,7 @@ describe('userService.login', () => {
     })
     
     test('should return success when login is valid', async () => {
+        console.log('running login valid test');
         const hashedPassword = bcrypt.hashSync(fakePassword, 10); // Hash a password for testing
         const mockUser = {
             id: 1,
@@ -83,6 +88,7 @@ describe('userService.login', () => {
     });
 
     test('should return null when user is not found', async () => {
+        console.log('running user not found test');
         // Mock `User.findOne` to return null
         User.findOne.mockResolvedValue(null);
 
@@ -95,6 +101,7 @@ describe('userService.login', () => {
     });
 
     test('should return null when password is invalid', async () => {
+        console.log('running invalid password test');
         const hashedPassword = bcrypt.hashSync(fakePassword, 10);
         const mockUser = {
             id: 1,
@@ -114,6 +121,7 @@ describe('userService.login', () => {
     });
 
     test('should throw an error when there is an issue with the database', async () => {
+        console.log('running database error test');
         // Mock `User.findOne` to throw an error
         User.findOne.mockRejectedValue(new Error('Database error'));
 
