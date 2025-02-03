@@ -5,12 +5,6 @@ import { generateToken } from '../utils/authUtils.js';
 import { faker } from '@faker-js/faker';
 import { afterAll, beforeAll, expect, jest } from '@jest/globals';
 
-jest.mock('../database.js', () => ({
-    sequelize: {
-        authenticate: jest.fn().mockResolvedValue('mocked authenticate'),
-        sync: jest.fn().mockResolvedValue('mocked sync'),
-    },
-}));
 
 jest.mock('../config.js', () => ({
     config: {
@@ -21,17 +15,7 @@ jest.mock('../config.js', () => ({
     },
 }));
 
-// jest.mock('../.env', () => ({
-//     NODE_ENV: 'test',
-//     MYPASSWORD: 'mock-password',
-//     MYUSERNAME: 'mock-user',
-//     SECRETKEY: 'mock-secret-key',
-// }));
-// test('should use mocked environment variables', () => {
-//     console.log(process.env.NODE_ENV)
-//     expect(process.env.NODE_ENV).toBe('test');
-// });
-
+jest.mock('../database.js');
 
 jest.mock('../models/index.js', () => ({
     User: {

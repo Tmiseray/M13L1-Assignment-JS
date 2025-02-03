@@ -7,11 +7,10 @@ export default {
   ],
   testEnvironment: 'node',
   setupFiles: [
-    '<rootDir>/__mocks__/setEnvVars.js',
-    'dotenv/config',
+    '<rootDir>/jest.setup.js',
   ],
   moduleNameMapper: {
-      '^config.js$': '<rootDir>/config.js',
-      '^database.js$': '<rootDir>/database.js',
+      '^config.js$': '<rootDir>/__mocks__/config.js',
+      '^database.js$': '<rootDir>/__mocks__/database.js',
   },
 };
