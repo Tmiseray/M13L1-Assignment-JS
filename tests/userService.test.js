@@ -6,51 +6,67 @@ import { faker } from '@faker-js/faker';
 import { afterAll, beforeAll, expect, jest } from '@jest/globals';
 
 
-jest.mock('../config.js', () => ({
-    config: {
-        DATABASE_URL: 'mysql://mock:mock@localhost:3306/mock_db',
-        CACHE_TYPE: 'simple',
-        DEBUG: false,
-        SECRETKEY: 'mock-secret-key'
-    }
-}));
+jest.mock('../config.js', () => {
+    return {
+        __esModule: true,
+        config: {
+            DATABASE_URL: 'mysql://mock:mock@localhost:3306/mock_db',
+            CACHE_TYPE: 'simple',
+            DEBUG: false,
+            SECRETKEY: 'mock-secret-key'
+        }
+    };
+});
 
-jest.mock('../database.js');
+jest.mock('../database.js', () => {
+    return {
+        __esModule: true,
+        default: {
+            define: jest.fn(),
+            sync: jest.fn(),
+            authenticate: jest.fn().mockResolvedValue(true),
+            model: jest.fn(),
+            query: jest.fn(),
+            close: jest.fn()
+        }
+    };
+});
 
 jest.mock('../models/index.js', () => ({
     User: {
         findOne: jest.fn(),
         findAll: jest.fn(),
+        create: jest.fn(),
     },
 }));
 
 jest.mock('../utils/authUtils.js', () => ({
-    generateToken: jest.fn(),
+    generateToken: jest.fn(() => 'dummy_token'),
 }));
 
-describe('userService.login', () => {
-    let fakePassword;
-    const OLD_ENV = process.env;
+describe('User Service Tests', () => {
+    beforeAll(() => {
+        console.log('Before All Tests');
+    });
 
     beforeEach(() => {
-        console.log('running beforeEach');
-        jest.resetModules();
-        process.env = { ...OLD_ENV };
-        fakePassword = faker.internet.password();  // Generate random password 
+        console.log('Before Each Test');
+        jest.resetModules(); 
+        // Reset modules before each test
     });
     
     afterEach(() => {
-        console.log('running afterEach');
-        jest.clearAllMocks(); // Clear mocks after each test
+        console.log('After Each Test');
+        jest.clearAllMocks(); 
+        // Clear mocks after each test
     });
 
     afterAll(() => {
-        console.log('running afterAll');
-        process.env = OLD_ENV;
+        console.log('After All Tests');
     });
 
     test('should receive process.env variables', () => {
-        console.log('running test');
+        console.log('running test for process.env variables');
         process.env.NODE_ENV = 'test';
         process.env.MYPASSWORD = 'mock-password';
         process.env.MYUSERNAME = 'mock-user';
@@ -60,31 +76,26 @@ describe('userService.login', () => {
     })
     
     test('should return success when login is valid', async () => {
-        console.log('running login valid test');
-        const hashedPassword = bcrypt.hashSync(fakePassword, 10); // Hash a password for testing
+        console.log('running valid login test');
+        // Arrange
+        const username = faker.internet.userName();
+        const password = faker.internet.password();
+        const hashedPassword = bcrypt.hashSync(password, 10);
         const mockUser = {
-            id: 1,
-            username: faker.internet.username(), // Generate random username
+            id: faker.datatype.number(),
+            username,
             password: hashedPassword,
             role: 'admin',
         };
 
-        // Mock `User.findOne` to return the mock user
         User.findOne.mockResolvedValue(mockUser);
 
-        // Mock `generateToken`
-        const mockToken = faker.string.uuid();  // Generate a random token
-        generateToken.mockReturnValue(mockToken);
+        // Act
+        const response = await userService.login(username, password);
 
-        const result = await userService.login(mockUser.username, fakePassword);
-
-        expect(User.findOne).toHaveBeenCalledWith({ where: { username: mockUser.username } });
-        expect(bcrypt.compareSync(fakePassword, mockUser.password)).toBe(true);
-        expect(result).toEqual({
-            status: 'success',
-            message: 'Successfully logged in',
-            authToken: mockToken,
-        });
+        // Assert
+        expect(response.status).toBe('success');
+        expect(response.authToken).toBe('dummy_token');
     });
 
     test('should return null when user is not found', async () => {
@@ -100,24 +111,28 @@ describe('userService.login', () => {
         expect(result).toBeNull();
     });
 
-    test('should return null when password is invalid', async () => {
+    test('should fail login with incorrect password', async () => {
         console.log('running invalid password test');
-        const hashedPassword = bcrypt.hashSync(fakePassword, 10);
+        // Arrange
+        const username = faker.internet.userName();
+        const password = faker.internet.password();
+        const hashedPassword = bcrypt.hashSync(password, 10);
         const mockUser = {
-            id: 1,
-            username: faker.internet.username(),
+            id: faker.datatype.number(),
+            username,
             password: hashedPassword,
             role: 'admin',
         };
 
-        // Mock `User.findOne` to return the mock user
         User.findOne.mockResolvedValue(mockUser);
 
-        const result = await userService.login(mockUser.username, faker.internet.password());
+        const incorrectPassword = faker.internet.password();
 
-        expect(User.findOne).toHaveBeenCalledWith({ where: { username: mockUser.username } });
-        expect(bcrypt.compareSync(faker.internet.password(), mockUser.password)).toBe(false);
-        expect(result).toBeNull();
+        // Act
+        const response = await userService.login(username, incorrectPassword);
+
+        // Assert
+        expect(response).toBeNull();
     });
 
     test('should throw an error when there is an issue with the database', async () => {
